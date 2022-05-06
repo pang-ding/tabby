@@ -1,0 +1,9 @@
+/bak
+/.vscode/
+/vendor/
+/tests/yaf.ini
+/tests/cache/
+/tests/report/
+*.cache
+/composer.lock
+/test.sh

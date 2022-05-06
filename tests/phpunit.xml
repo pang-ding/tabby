@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="./bootstrap.php"
+    convertErrorsToExceptions="false"
+    convertNoticesToExceptions="false"
+    convertWarningsToExceptions="false"
+>
+    <testsuites>
+        <testsuite name="">
+            <!-- <file>Utils/Happy_Test.php</file> -->
+            <!-- <file>Middleware/Lock/Lock_Test.php</file> -->
+            <file>Store/Mysql/Select_Test.php</file>
+            <file>Store/Mysql/Insert_Test.php</file>
+            <file>Store/Mysql/Update_Test.php</file>
+            <file>Store/Mysql/Delete_Test.php</file>
+            <file>Store/Mysql/Conn_Test.php</file>
+            <file>Store/Mysql/DB_Test.php</file>
+            <file>Mod/Mod_Test.php</file>
+            <file>Validator/Executer_Test.php</file>
+            <file>Validator/Rules_Test.php</file>
+            <file>Validator/Validator_Test.php</file> 
+            <file>Validator/Validate_Test.php</file>
+            <file>Validator/Data_Test.php</file> 
+            <file>Utils/All_Test.php</file>
+            <file>Store/Redis/Sentinel_Test.php</file>
+            <file>Store/Redis/MasterSlaves_Test.php</file>
+            <file>Store/Redis/Redis_Test.php</file>
+            <file>Store/Memcache/Memcache_Test.php</file>
+            <file>Framework/Cycle_Test.php</file>
+            <file>Framework/HttpRequest_Test.php</file>
+            <file>Framework/Response_Test.php</file>
+            <file>Mod/MongoMod_Test.php</file>
+            
+        </testsuite>
+    </testsuites>
+    <coverage cacheDirectory="./cache/"
+          includeUncoveredFiles="true"
+          processUncoveredFiles="false"
+          pathCoverage="true"
+          ignoreDeprecatedCodeUnits="true"
+          disableCodeCoverageIgnore="true">
+        <include>
+            <directory suffix=".php">../src</directory>
+        </include>
+        <report>
+            <clover outputFile="./report/clover.xml"/>
+            <html outputDirectory="./report/html" lowUpperBound="50" highLowerBound="90"/>
+            <text outputFile="./report/coverage.txt" showUncoveredFiles="false" showOnlySummary="true"/>
+        </report>
+    </coverage>
+</phpunit>

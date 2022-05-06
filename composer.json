@@ -1,0 +1,46 @@
+{
+    "name": "pang-ding/tabby",
+    "description": "Tabby Freamwork",
+    "type": "library",
+    "keywords": [
+        "tabby",
+        "yaf",
+        "freamwork"
+    ],
+    "license": "MIT",
+    "version": "0.0.7",
+    "authors": [
+        {
+            "name": "Lv Liangyu",
+            "email": "lv_liangyu@yeah.net"
+        }
+    ],
+    "require": {
+        "php": "^7.3",
+        "ext-yaf": "^3.3",
+        "psr/container": "^1.1",
+        "psr/log": "^1.0.1|^2.0|^3.0",
+        "psr/simple-cache": "^1.0",
+        "league/plates": "3.*",
+        "monolog/monolog": "2.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*",
+        "symfony/var-dumper": "*",
+        "mongodb/mongodb": "^1.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "Tabby\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "": "tests/project/src",
+            "Tabby\\Test\\": "tests"
+        },
+        "files": [
+            "tests/project/src/helpers.php"
+        ]
+    }
+}
