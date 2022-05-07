@@ -109,6 +109,9 @@ class Tabby
         // isDebug
         self::$isDebug = self::$Conf->get('tabby.isDebug', false);
 
+        // isCli
+        self::$isCli = self::$Conf->get('tabby.isCli', false);
+
         // Logger
         self::$Log = $logger === null ? static::defaultLog() : $logger;
 
@@ -130,15 +133,21 @@ class Tabby
         static::$Disp->returnResponse(true);
 
         // 输入 #放弃自动判断, 配置决定是否 Cli 模式
-        if (self::$Conf->isTrue('tabby.isCli')) {
-            // Cli模式
-            self::$isCli = true;
-            self::$REQ   = static::$YAF_REQ;
+        if (self::$isCli) {
+            $args = getopt('r:d:');
+
+            self::$YAF_REQ->setRequestUri($args['r']);
+
+            /**
+             * @var \Tabby\Framework\Request\CliRequest
+             */
+            self::$REQ   = \Tabby\Framework\Request\CliRequest::getIns();
+            parse_str($args['d'], $req);
+            self::$REQ->setData($req);
+
             // 默认不输出内容
-            self::$RSP->setDefaultRender(\Tabby\Framework\Render\RenderNone::class);
+            self::$RSP->setDefaultRender(\Tabby\Framework\Response::RENDER_NONE);
         } else {
-            // Http模式
-            self::$isCli = false;
             self::$REQ   = \Tabby\Framework\Request\HttpRequest::getIns();
         }
 
@@ -166,7 +175,7 @@ class Tabby
         $handler   = new SyslogHandler(self::$Conf['app']['name'], LOG_LOCAL6);
         $handler->setFormatter($formatter);
         $handlers = [$handler];
-        if (self::$isDebug) {
+        if (self::$isDebug && !self::$isCli) {
             $handlers[] = new ChromePHPHandler(MonoLogger::INFO, false);
         }
 
