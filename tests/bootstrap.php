@@ -67,9 +67,4 @@ DI::getIns()->set(DiConsts::DI_MONGO, function () {
 
         return;
     }
-
-    $client = new \MongoDB\Client();
-    $db     = $_ENV['mongo']['dbname'];
-
-    return $client->$db;
 });
