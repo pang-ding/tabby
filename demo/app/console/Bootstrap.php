@@ -10,8 +10,9 @@
  */
 
 use Consts\DiConsts;
-use Tabby\Store\Mysql\Conn;
 use Tabby\Store\Mysql\DB;
+use Tabby\Store\Mysql\Conn;
+use Tabby\Middleware\Queue\Drivers\BasicQueueRabbitMQ;
 
 /**
  * 所有在Bootstrap类中, 以_init开头的方法, 都会被Yaf调用,
@@ -31,9 +32,6 @@ class Bootstrap extends \Yaf\Bootstrap_Abstract
 
         // 注册 路由
         \T::$Disp->getRouter()->addRoute('_TabbyRouter', new \Tabby\Framework\Router());
-
-        // 注册 Plugin
-        \T::$Disp->registerPlugin(new \Plugins\Console());
     }
 
     /**
@@ -70,5 +68,13 @@ class Bootstrap extends \Yaf\Bootstrap_Abstract
                 return;
             }
         };
+
+        \T::$DI['rmq'] = new BasicQueueRabbitMQ([
+            'host'    => '127.0.0.1',
+            'port'    => 5672,
+            'user'    => 'tabby_test',
+            'password'=> 'tabby_test',
+        ]);
+        \T::$DI['rmq']->setExchange('tabby_test');
     }
 }

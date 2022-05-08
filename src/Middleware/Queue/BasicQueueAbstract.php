@@ -10,6 +10,9 @@
  */
 namespace Tabby\Middleware\Queue;
 
-abstract class QueueAbstract
+abstract class BasicQueueAbstract
 {
+    abstract public function publish(string $queue, string $msg): void;
+
+    abstract public function receive(string $queue, callable $receive): void;
 }
