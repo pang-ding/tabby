@@ -23,6 +23,11 @@ ___暂不支持复杂场景(需要临时创建Exchange/Queue, 或者消息体不
 ]);
 // 交换机, 仅用于 publish. 如果多处 publish 使用不同的 Exchange, 请在每次 publish 前设置.
 \T::$DI['rmq']->setExchange('tabby_test'); 
+
+// 开启 publish ack, 失败时返回 false. 默认关闭, 直接返回 true
+// 只接收 ack nack, 不处理 Exchange 找不到 Queue 的情况. 用状态异步做数据补偿是正途
+// 参数 $publishAckTimeout 是等待 ack 超时时间 (秒 float, 默认: 3.0)
+\T::$DI['rmq']->publishAck(float $publishAckTimeout = 3.0);
 ```
 
 #### 发消息
@@ -39,7 +44,7 @@ ___暂不支持复杂场景(需要临时创建Exchange/Queue, 或者消息体不
 
     // 业务逻辑 ...
 
-    return true; // true: ack | false: reject
+    return true; // ACK (true: ack | false: reject) 
 });
 ```
 
@@ -59,8 +64,8 @@ $connConfig['locale'] ?? 'en_US';
 $connConfig['connection_timeout'] ?? 3.0;
 $connConfig['read_write_timeout'] ?? 3.0;
 $connConfig['context'] ?? null;
-$connConfig['keepalive'] ?? false;
-$connConfig['heartbeat'] ?? 0;
+$connConfig['keepalive'] ?? false; // 连接时间长的场景 打开 keepalive, 并设置 heartbeat
+$connConfig['heartbeat'] ?? 0;     // 心跳间隔 一般30
 $connConfig['channel_rpc_timeout'] ?? 0.0;
 $connConfig['ssl_protocol'] ?? null;
 

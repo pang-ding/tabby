@@ -18,7 +18,7 @@ class RabbitmqController extends \Tabby\Framework\Ctrl
     {
         Vali::mergeRules(
             [
-                'queue'=> 'str|between:1,30',
+                'queue' => 'str|between:1,30',
             ]
         );
 
@@ -34,7 +34,7 @@ class RabbitmqController extends \Tabby\Framework\Ctrl
         });
     }
 
-    // php -c ./conf/php_dev.ini ./app/console/entry.php -r "/rabbitmq/publish" -d "queue=tabby_test&msg=2"
+    // php -c ./conf/php.ini ./app/console/entry.php -r "/rabbitmq/publish" -d "queue=tabby_test&msg=2"
     public function publishAction(\Tabby\Framework\Request\CliRequest $req)
     {
         Vali::mergeRules(
@@ -47,7 +47,16 @@ class RabbitmqController extends \Tabby\Framework\Ctrl
         /**
          * @var BasicQueueRabbitMQ
          */
-        $rmq = \T::$DI['rmq'];
-        $rmq->publish($req['queue'], $req['msg']);
+        $rmq  = \T::$DI['rmq'];
+        $rst1 = $rmq->publish($req['queue'], $req['msg'] . '_1');
+        $rst2 = $rmq->publish($req['queue'], $req['msg'] . '_2');
+        $rst3 = $rmq->publish($req['queue'], $req['msg'] . '_3');
+        $rst4 = $rmq->publish($req['queue'], $req['msg'] . '_4');
+        $rst5 = $rmq->publish($req['queue'], $req['msg'] . '_5');
+        \T::$Log->info('RabbitMQ Publish Rst1: ' . var_export($rst1, true));
+        \T::$Log->info('RabbitMQ Publish Rst2: ' . var_export($rst2, true));
+        \T::$Log->info('RabbitMQ Publish Rst3: ' . var_export($rst3, true));
+        \T::$Log->info('RabbitMQ Publish Rst4: ' . var_export($rst4, true));
+        \T::$Log->info('RabbitMQ Publish Rst5: ' . var_export($rst5, true));
     }
 }

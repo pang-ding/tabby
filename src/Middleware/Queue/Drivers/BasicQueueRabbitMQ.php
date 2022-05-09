@@ -20,7 +20,7 @@ class BasicQueueRabbitMQ extends \Tabby\Middleware\Queue\BasicQueueAbstract
     /**
      * @var AMQPStreamConnection
      */
-    private $_conn              = null;
+    private $_conn = null;
     /**
      * @var AMQPChannel
      */
@@ -28,39 +28,24 @@ class BasicQueueRabbitMQ extends \Tabby\Middleware\Queue\BasicQueueAbstract
     private $_exchange          = '';
     private $_messageProperties = [];
     private $_consumeConfig     = [];
+    private $_publishAck        = false;
+    private $_publishAckRst     = null;
+    private $_publishAckTimeout = false;
 
     public function __construct(array $connConfig)
     {
         $this->_connConfig = $connConfig;
     }
 
-    public function getChannel()
+    /**
+     * 启用 Publish ACK (只接收ack & nack, 不处理 result)
+     *
+     * @param float $_publishAckTimeout
+     */
+    public function publishAck(float $publishAckTimeout = 3.0): void
     {
-        if ($this->_conn === null) {
-            $this->_conn = new AMQPStreamConnection(
-                $this->_connConfig['host'],
-                $this->_connConfig['port'],
-                $this->_connConfig['user'],
-                $this->_connConfig['password'],
-                $this->_connConfig['vhost'] ?? '/',
-                $this->_connConfig['insist'] ?? false,
-                $this->_connConfig['login_method'] ?? 'AMQPLAIN',
-                $this->_connConfig['login_response'] ?? null,
-                $this->_connConfig['locale'] ?? 'en_US',
-                $this->_connConfig['connection_timeout'] ?? 3.0,
-                $this->_connConfig['read_write_timeout'] ?? 3.0,
-                $this->_connConfig['context'] ?? null,
-                $this->_connConfig['keepalive'] ?? false,
-                $this->_connConfig['heartbeat'] ?? 0,
-                $this->_connConfig['channel_rpc_timeout'] ?? 0.0,
-                $this->_connConfig['ssl_protocol'] ?? null
-            );
-        }
-        if ($this->_channel === null) {
-            $this->_channel = $this->_conn->channel();
-        }
-
-        return $this->_channel;
+        $this->_publishAck        = true;
+        $this->_publishAckTimeout = $publishAckTimeout;
     }
 
     /**
@@ -99,11 +84,22 @@ class BasicQueueRabbitMQ extends \Tabby\Middleware\Queue\BasicQueueAbstract
      * @param string $queue
      * @param string $msg
      */
-    public function publish(string $queue, string $msg): void
+    public function publish(string $queue, string $msg)
     {
+        $this->_publishAckRst = null;
+
         $msg = new AMQPMessage($msg, $this->_messageProperties);
 
-        $this->getChannel()->basic_publish($msg, $this->_exchange, $queue);
+        $channel = $this->getChannel();
+        $channel->basic_publish($msg, $this->_exchange, $queue);
+
+        if ($this->_publishAck) {
+            $channel->wait_for_pending_acks_returns($this->_publishAckTimeout);
+
+            return $this->_publishAckRst;
+        }
+
+        return true;
     }
 
     /**
@@ -123,10 +119,8 @@ class BasicQueueRabbitMQ extends \Tabby\Middleware\Queue\BasicQueueAbstract
             $this->_consumeConfig['nowait'] ?? false,
             function ($msg) use ($callback) {
                 if ($callback($msg->getBody(), $msg)) {
-                    // \T::$Log->info('[Queue] ACK: ' . $msg->getBody());
                     $msg->ack();
                 } else {
-                    // \T::$Log->info('[Queue] REJECT: ' . $msg->getBody());
                     $msg->reject(true);
                 }
             },
@@ -136,6 +130,46 @@ class BasicQueueRabbitMQ extends \Tabby\Middleware\Queue\BasicQueueAbstract
         while (count($this->_channel->callbacks)) {
             $this->_channel->wait();
         }
+    }
+
+    public function getChannel()
+    {
+        if ($this->_conn === null) {
+            $this->_conn = new AMQPStreamConnection(
+                $this->_connConfig['host'],
+                $this->_connConfig['port'],
+                $this->_connConfig['user'],
+                $this->_connConfig['password'],
+                $this->_connConfig['vhost'] ?? '/',
+                $this->_connConfig['insist'] ?? false,
+                $this->_connConfig['login_method'] ?? 'AMQPLAIN',
+                $this->_connConfig['login_response'] ?? null,
+                $this->_connConfig['locale'] ?? 'en_US',
+                $this->_connConfig['connection_timeout'] ?? 3.0,
+                $this->_connConfig['read_write_timeout'] ?? 3.0,
+                $this->_connConfig['context'] ?? null,
+                $this->_connConfig['keepalive'] ?? false,
+                $this->_connConfig['heartbeat'] ?? 0,
+                $this->_connConfig['channel_rpc_timeout'] ?? 0.0,
+                $this->_connConfig['ssl_protocol'] ?? null,
+            );
+        }
+        if ($this->_channel === null) {
+            $this->_channel = $this->_conn->channel();
+            if ($this->_publishAck) {
+                $this->_channel->confirm_select();
+
+                $this->_channel->set_ack_handler(function (AMQPMessage $msg) {
+                    $this->_publishAckRst = true;
+                });
+
+                $this->_channel->set_nack_handler(function (AMQPMessage $msg) {
+                    $this->_publishAckRst = false;
+                });
+            }
+        }
+
+        return $this->_channel;
     }
 
     public function close()

@@ -70,11 +70,12 @@ class Bootstrap extends \Yaf\Bootstrap_Abstract
         };
 
         \T::$DI['rmq'] = new BasicQueueRabbitMQ([
-            'host'    => '127.0.0.1',
-            'port'    => 5672,
-            'user'    => 'tabby_test',
-            'password'=> 'tabby_test',
+            'host'     => '127.0.0.1',
+            'port'     => 5672,
+            'user'     => 'tabby_test',
+            'password' => 'tabby_test',
         ]);
         \T::$DI['rmq']->setExchange('tabby_test');
+        \T::$DI['rmq']->publishAck(1.0);
     }
 }
