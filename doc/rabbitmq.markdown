@@ -2,6 +2,14 @@
 
 ___暂不支持复杂场景(需要临时创建Exchange/Queue, 或者消息体不是明文的情况)___
 
+#### 默认没在composer.json里加引用, 使用的时候自己加一下
+
+```json
+"php-amqplib/php-amqplib": "^3.1"
+```
+
+#### 参考 DEMO: /demo/app/console/controllers/Rabbitmq.php
+
 #### 配置
 
 ```php

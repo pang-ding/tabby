@@ -12,6 +12,12 @@ AbstractMongoMod
 
 <https://www.mongodb.com/docs/php-library/master/>
 
+#### 默认没在composer.json里加引用, 使用的时候自己加一下
+
+```json
+"mongodb/mongodb": "^1.8"
+```
+
 #### 连接
 
 ```php
