@@ -16,8 +16,8 @@ class Demo_AllController extends \Tabby\Framework\Ctrl
         // 注册验证规则, 实际项目中一般放在 rules 目录下, 统一管理全局使用
         Vali::mergeRules(
             [
-                'foo'=> 'str|between:2,10',
-                'bar'=> 'int|between:1,100'
+                'foo' => 'str|between:2,10',
+                'bar' => 'int|between:1,100'
             ]
         );
 

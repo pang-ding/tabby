@@ -59,7 +59,7 @@ $conf = Conf::single([
     Conf::helper('127.0.0.1', 16380),
 ]);
 
-new MasterSlaves($conf);
+new Redis($conf);
 ```
 
 #### 主从
@@ -84,7 +84,7 @@ $conf = Conf::masterSlave(
     ]
 );
 
-new MasterSlaves($conf);
+new Redis($conf);
 ```
 
 #### 哨兵
@@ -114,5 +114,5 @@ $conf = Conf::sentinel(
     null, // 默认使用文件锁
     true
 );
-new Sentinel($conf);
+new Redis($conf);
 ```

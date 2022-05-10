@@ -10,7 +10,6 @@
 namespace Tabby\Test\Store\Redis;
 
 use Tabby\Store\Redis\Conf;
-use Tabby\Store\Redis\MasterSlaves;
 use Tabby\Store\Redis\Redis;
 use Tabby\Test\TestCase;
 
@@ -43,7 +42,7 @@ class Redis_Test extends TestCase
         );
         self::$redis = new Redis(self::$conf);
         //self::$redis->select(6);
-        self::$redis->flushDb();
+        self::$redis->flushDb(false);
 
         // scan返回空记录自动重试
         //self::$redis->setOption(Redis::OPT_SCAN, Redis::SCAN_RETRY);

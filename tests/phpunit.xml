@@ -29,10 +29,11 @@
             <file>Framework/HttpRequest_Test.php</file>
             <file>Framework/Response_Test.php</file>
             <file>Mod/MongoMod_Test.php</file>
+            <file>Cache/CacheRedis_Test.php</file>
             
         </testsuite>
     </testsuites>
-    <coverage cacheDirectory="./cache/"
+    <!-- <coverage cacheDirectory="./cache/"
           includeUncoveredFiles="true"
           processUncoveredFiles="false"
           pathCoverage="true"
@@ -46,5 +47,5 @@
             <html outputDirectory="./report/html" lowUpperBound="50" highLowerBound="90"/>
             <text outputFile="./report/coverage.txt" showUncoveredFiles="false" showOnlySummary="true"/>
         </report>
-    </coverage>
+    </coverage> -->
 </phpunit>

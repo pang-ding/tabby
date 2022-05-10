@@ -18,7 +18,7 @@ class Demo_CrudController extends \Tabby\Framework\Ctrl
 
         if ($rsp['dbStatus']['conn'] && $rsp['dbStatus']['tables']) {
             // 以KV字典形式返回tags
-            $rsp['tags'] = DemoTagMod::dict('tag_key', 'tag_title', ['enable'=>1]);
+            $rsp['tags'] = DemoTagMod::dict('tag_key', 'tag_title', ['enable' => 1]);
         }
 
         $rsp->tpl('demo/crud');
@@ -72,7 +72,7 @@ class Demo_CrudController extends \Tabby\Framework\Ctrl
         $tablePass = true;
 
         try {
-            foreach ($cSql as $k=>$v) {
+            foreach ($cSql as $k => $v) {
                 if (!$tableExists($k)) {
                     $createSql .= $v;
                     $tablePass = false;
@@ -85,7 +85,7 @@ class Demo_CrudController extends \Tabby\Framework\Ctrl
 
         if ($connPass && !$tablePass && $_REQUEST['create_tables']) {
             DI::DB()->sql($createSql)->exec();
-            foreach ($cSql as $k=>$v) {
+            foreach ($cSql as $k => $v) {
                 if (!$tableExists($k)) {
                     throw new ErrorClient("创建 {$k} 表失败, 请尝试自行执行 SQL 创建");
                 }
@@ -93,6 +93,6 @@ class Demo_CrudController extends \Tabby\Framework\Ctrl
             $tablePass = true;
         }
 
-        return ['conn'=>$connPass, 'tables'=>$tablePass, 'createSql'=>$createSql, 'connError'=>$connError];
+        return ['conn' => $connPass, 'tables' => $tablePass, 'createSql' => $createSql, 'connError' => $connError];
     }
 }

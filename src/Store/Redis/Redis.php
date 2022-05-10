@@ -66,9 +66,19 @@ class Redis
         }
     }
 
+    public function getModeIns()
+    {
+        return $this->_modeIns;
+    }
+
     public function __call($name, $arguments)
     {
         return $this->_modeIns->masterExec($name, $arguments);
+    }
+
+    public function multi()
+    {
+        return $this->_modeIns->getMaster()->phpRedis->multi();
     }
 
     /* ================================ String ================================
@@ -432,6 +442,34 @@ class Redis
     public function rename($srckey, $dstkey)
     {
         return $this->_modeIns->masterExec('rename', [$srckey, $dstkey]);
+    }
+
+    /**
+     * 清空当前选定的DB
+     *
+     * $async Redis4.0之后支持 flushdb async, key是立即消失的, 数据异步删除, 避免阻塞线程
+     *
+     * @param bool $async
+     *
+     * @return bool true: 成功
+     */
+    public function flushDb($async = true)
+    {
+        return $this->_modeIns->masterExec('flushDb', [$async]);
+    }
+
+    /**
+     * 清空所有DB
+     *
+     * $async Redis4.0之后支持 flushall async, key是立即消失的, 数据异步删除, 避免阻塞线程
+     *
+     * @param bool $async
+     *
+     * @return bool true: 成功
+     */
+    public function flushAll($async)
+    {
+        return $this->_modeIns->masterExec('flushAll', [$async]);
     }
 
     /**

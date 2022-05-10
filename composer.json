@@ -7,8 +7,9 @@
         "yaf",
         "freamwork"
     ],
+    "homepage": "https://tabby.lvliangyu.com",
     "license": "MIT",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "authors": [
         {
             "name": "Lv Liangyu",
