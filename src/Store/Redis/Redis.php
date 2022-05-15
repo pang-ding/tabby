@@ -1381,7 +1381,7 @@ class Redis
      * ZRANGEBYSCORE key min max [optiong WITHSCORES [offset count]]
      *
      * [顺序] 返回有序集合中指定分数区间的成员列表。有序集成员按分数值递增排列
-     * min 和 max 默认闭区间, 可以使用 '(' 指定开区间. '+inf' 和 '-inf' 代表正负无穷
+     * min 和 max 默认闭区间, 可以使用 ( 指定开区间. '+inf' 和 '-inf' 代表正负无穷
      * 例如: '(100', '200' 表示 100 < X <= 200
      * options:
      *    WITHSCORES  返回成员和分数

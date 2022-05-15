@@ -42,10 +42,15 @@ ___存储 :___
 
 ___中间件 :___ 
 
-[~~缓存~~](#cache) | [~~队列~~](#queue) | [~~锁~~](#lock) | [~~Zookeeper~~](#zookeeper) ...
+[缓存](https://tabby.lvliangyu.com/article?channel=tabby_course&category=extend&article_id=627a2b31266a82f83b06b792) | 
+[队列](https://tabby.lvliangyu.com/article?channel=tabby_course&category=extend&article_id=6277f912e519195d3f0bf983) | 
+[锁](https://tabby.lvliangyu.com/article?channel=tabby_course&category=extend&article_id=62714549aab05a9ae300a962) | 
+[Zookeeper](https://tabby.lvliangyu.com/article?channel=tabby_doc&category=middleware&article_id=628123c002eafa6913071dd2) ...
 
 ___其他 :___ 
 
-[~~安全 ( Csrf / Xss )~~](#safe) | [~~服务调用 ( Rpc / proto / SDK ... )~~](#safe) | [~~SESSION~~](#session) ...
+[~~安全 ( Csrf / Xss )~~](#safe) | 
+[~~服务调用 ( Rpc / proto / SDK ... )~~](#safe) | 
+[~~SESSION~~](#session) ...
 
  ___And more ...___
