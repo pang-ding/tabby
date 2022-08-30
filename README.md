@@ -1,17 +1,12 @@
-# Tabby - PHP Web Framework
-[![PHP version](https://img.shields.io/badge/php-%3E%3D7.4-8892BF.svg)](https://www.php.net/)
-
-&nbsp;
-
 <center>
 
 [![Tabby PHP Web Framework](https://tabby.lvliangyu.com/logo/logo.png)](https://tabby.lvliangyu.com/)
 
-&nbsp;
+# Tabby - PHP Web Framework
+[![PHP version](https://img.shields.io/badge/php-%3E%3D7.4-8892BF.svg)](https://www.php.net/)
 
-### 核心源码 一天看完 不求优雅 但求简单
 
-### 查看: [教程](https://tabby.lvliangyu.com/) | [文档](https://tabby.lvliangyu.com/)
+### [教程](https://tabby.lvliangyu.com/) | [文档](https://tabby.lvliangyu.com/)
 
 </center>
 
@@ -45,7 +40,7 @@ ___中间件 :___
 [缓存](https://tabby.lvliangyu.com/article?channel=tabby_course&category=extend&article_id=627a2b31266a82f83b06b792) | 
 [队列](https://tabby.lvliangyu.com/article?channel=tabby_course&category=extend&article_id=6277f912e519195d3f0bf983) | 
 [锁](https://tabby.lvliangyu.com/article?channel=tabby_course&category=extend&article_id=62714549aab05a9ae300a962) | 
-[Zookeeper](https://tabby.lvliangyu.com/article?channel=tabby_doc&category=middleware&article_id=628123c002eafa6913071dd2) ...
+[Zookeeper](https://tabby.lvliangyu.com/article?channel=tabby_course&category=extend&article_id=628127b545273759aa0768e2) ...
 
 ___其他 :___ 
 
