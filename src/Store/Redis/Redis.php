@@ -62,7 +62,7 @@ class Redis
                 break;
 
             default:
-                throw new ErrorSys("RedisConf Error: Unknown mode: '{$this->_mode}'");
+                throw new ErrorSys("RedisConf Error: Unknown mode: '{$mode}'");
         }
     }
 
