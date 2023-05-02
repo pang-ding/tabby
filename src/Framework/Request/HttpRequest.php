@@ -118,6 +118,35 @@ class HttpRequest extends AbstractRequest implements \ArrayAccess
         return [empty($pageSize) ? $defaultPageSize : $pageSize, empty($pageNum) ? 1 : $pageNum];
     }
 
+    /**
+     * 取得时间段参数
+     *
+     * @param string $key
+     * @param array  $data     将结果放入该数组
+     * @param bool   $empty    允许为空
+     * @param bool   $forWhere 返回用于查询的格式,false: 正常KV
+     */
+    public function getTimeRange(string $key, &$data = null, $empty = true, $forWhere = true)
+    {
+        if ($data === null) {
+            $data = [];
+        }
+        $fullKey = $key . '.arr';
+        if ($empty) {
+            $fullKey .= '.ept';
+        }
+        $rst = $this->request($fullKey);
+
+        if (isset($rst[0])) {
+            $data[$forWhere ? $key . '|>=' : $key] = $rst[0];
+            if (isset($rst[1])) {
+                $data[$forWhere ? $key . '|<=' : $key] = $rst[1];
+            }
+        }
+
+        return $data;
+    }
+
     public function __get($name)
     {
         return $this->request($name);

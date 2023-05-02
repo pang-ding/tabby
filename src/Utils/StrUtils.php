@@ -10,8 +10,15 @@
  */
 namespace Tabby\Utils;
 
+use Symfony\Component\VarDumper\Cloner\VarCloner;
+use Symfony\Component\VarDumper\Dumper\CliDumper;
+use Symfony\Component\VarDumper\Dumper\AbstractDumper;
+
 class StrUtils
 {
+    protected static $_varCloner = null;
+    protected static $_cliDumper = null;
+
     /**
      * 下划线转驼峰
      */
@@ -58,5 +65,18 @@ class StrUtils
         }
 
         return $dir;
+    }
+
+    /**
+     * 变量格式化
+     */
+    public static function var2str($var): string
+    {
+        if (static::$_cliDumper === null) {
+            static::$_cliDumper = new CliDumper(null, null, AbstractDumper::DUMP_LIGHT_ARRAY);
+            static::$_varCloner = new VarCloner();
+        }
+
+        return static::$_cliDumper->dump(static::$_varCloner->cloneVar($var), true);
     }
 }

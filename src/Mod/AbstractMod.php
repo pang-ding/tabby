@@ -240,7 +240,7 @@ abstract class AbstractMod
      *
      * @return mixed
      */
-    public static function list($select, $where, string $order = '', int $limit = 0, int $offset = 0, array $join=[])
+    public static function list($select, $where, string $order = '', int $limit = 0, int $offset = 0, array $join = [])
     {
         $sql = static::select($select)
             ->where($where)
@@ -266,9 +266,9 @@ abstract class AbstractMod
      * @param array  $join
      *
      * JOIN:
-     *   - table:     关联表 默认值: 当前表: static::$_TABLE_NAME
+     *   - table:     关联表
      *   - col:       关联列
-     *   - originTable: 原表
+     *   - originTable: 原表 默认值: 当前表: static::$_TABLE_NAME
      *   - originCol: 原表关联列
      *   - as:        别名 默认值: '',不设置alias
      *   - type:      JOIN|LEFT JOIN|RIGHT JOIN 默认值: 'JOIN'
@@ -276,7 +276,7 @@ abstract class AbstractMod
      *
      * @return array [TabbyConsts::MOD_PAGE_LIST_FIELD => {当前页数据}, TabbyConsts::MOD_PAGE_TOTAL_FIELD => {总行数}]
      */
-    public static function pageList(int $size, int $pageNum, $select, $where, $order = '', $join=[])
+    public static function pageList(int $size, int $pageNum, $select, $where, $order = '', $join = [])
     {
         $total = 0;
         $sql   = static::select($select)
@@ -284,7 +284,7 @@ abstract class AbstractMod
             ->orderBy($order);
         if (!empty($join)) {
             foreach ($join as $v) {
-                $sql->join($v['table'], $v['col'], $v['originTable'] ?? static::$_TABLE_NAME, $v['originCol'], $v['as'] ?? '', '', $v['type'] ?? 'JOIN');
+                $sql->join($v['table'], $v['col'], $v['originTable'] ?? static::$_TABLE_NAME, $v['originCol'] ?? $v['col'], $v['as'] ?? '', '', $v['type'] ?? 'JOIN');
             }
         }
         $list = $sql->getPageData($size, $total, $pageNum);

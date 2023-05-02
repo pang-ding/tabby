@@ -70,7 +70,7 @@ class Data extends \ArrayObject
     {
         $dels = [];
         foreach ($this as $k => $v) {
-            if (empty($v)) {
+            if (empty($v) && $v !== '0') {
                 $dels[] = $k;
             }
         }

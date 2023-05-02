@@ -244,7 +244,7 @@ class Executer
         if ($args['assertArgs'] === '') {
             throw new ErrorSys('Validator Error: Argument of str_in must be set');
         }
-        if (in_array($args['value'], explode('|', $args['assertArgs']), true)) {
+        if (in_array($args['value'], explode(',', $args['assertArgs']), true)) {
             $args['flag'] = $args['flag'] | Validator::FLAG_OFF_XSS | Validator::FLAG_OFF_FORMAT;
 
             return true;
@@ -300,6 +300,26 @@ class Executer
             $rst = $assertArgs[0]::hasVal($assertArgs[1], $args['value'], $assertArgs[2]);
         } else {
             $rst = $assertArgs[0]::hasVal($assertArgs[1], $args['value']);
+        }
+        if ($rst) {
+            $args['flag'] = $args['flag'] | Validator::FLAG_OFF_XSS | Validator::FLAG_OFF_FORMAT;
+
+            return true;
+        }
+
+        return null;
+    }
+
+    public static function str_notval(array &$args)
+    {
+        if ($args['assertArgs'] === '') {
+            throw new ErrorSys('Validator Error: Argument of str_notval must be set');
+        }
+        $assertArgs = explode(',', $args['assertArgs']);
+        if (count($assertArgs) > 2) {
+            $rst = !$assertArgs[0]::hasVal($assertArgs[1], $args['value'], $assertArgs[2]);
+        } else {
+            $rst = !$assertArgs[0]::hasVal($assertArgs[1], $args['value']);
         }
         if ($rst) {
             $args['flag'] = $args['flag'] | Validator::FLAG_OFF_XSS | Validator::FLAG_OFF_FORMAT;
@@ -367,7 +387,7 @@ class Executer
             throw new ErrorSys('Validator Error: Argument of int_in must be set');
         }
 
-        return in_array($args['value'], explode('|', $args['assertArgs'])) ? true : null;
+        return in_array($args['value'], explode(',', $args['assertArgs'])) ? true : null;
     }
 
     public static function int_enum(array &$args)

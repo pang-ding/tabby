@@ -11,7 +11,9 @@
 namespace Tabby\Store\Mysql;
 
 use PDO;
+use Tabby\Tabby;
 use Tabby\Error\ErrorSys;
+use Tabby\Utils\StrUtils;
 
 class Conn
 {
@@ -329,6 +331,13 @@ class Conn
 
     protected function initStmt(string $sql, array $values = [], $options = []): \PDOStatement
     {
+        if (Tabby::$isDebug) {
+            Tabby::$Log->debug($sql);
+            if (!empty($values)) {
+                \T::$Log->debug('bindValues = ' . StrUtils::var2str($values, true));
+            }
+        }
+
         $stmt = $this->_pdo->prepare($sql, $options);
         $this->bindValues($stmt, $values);
 

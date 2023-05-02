@@ -141,14 +141,14 @@ class Tabby
             /**
              * @var \Tabby\Framework\Request\CliRequest
              */
-            self::$REQ   = \Tabby\Framework\Request\CliRequest::getIns();
+            self::$REQ = \Tabby\Framework\Request\CliRequest::getIns();
             parse_str($args['d'], $req);
             self::$REQ->setData($req);
 
             // 默认不输出内容
             self::$RSP->setDefaultRender(\Tabby\Framework\Response::RENDER_NONE);
         } else {
-            self::$REQ   = \Tabby\Framework\Request\HttpRequest::getIns();
+            self::$REQ = \Tabby\Framework\Request\HttpRequest::getIns();
         }
 
         // Tabby Plugin
@@ -171,7 +171,7 @@ class Tabby
 
     protected static function defaultLog()
     {
-        $formatter = new LineFormatter('[%level_name%] %message%', 'm-d, H:i:s');
+        $formatter = new LineFormatter('[%level_name%] %message%', null, self::$isDebug);
         $handler   = new SyslogHandler(self::$Conf['app']['name'], LOG_LOCAL6);
         $handler->setFormatter($formatter);
         $handlers = [$handler];

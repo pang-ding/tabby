@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 class ErrorController extends \Yaf\Controller_Abstract
 {
     private static $_Counter      = 0;
@@ -21,6 +22,11 @@ class ErrorController extends \Yaf\Controller_Abstract
             exit;
         }
 
+        if (\T::$isDebug) {
+            \T::$Log->debug($exception->getFile() . ' (' . $exception->getLine() . ')');
+            \T::$Log->debug('-----------Trace-----------' . substr(var2str($exception->getTraceAsString()), 3, -5));
+            \T::$Log->debug('------------End------------');
+        }
         \T::$RSP->setException($exception);
     }
 }

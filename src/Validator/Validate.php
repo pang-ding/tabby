@@ -55,6 +55,16 @@ class Validate
     }
 
     /**
+     * 设置规则
+     *
+     * @return
+     */
+    public static function setRules($key, $rule): void
+    {
+        static::$_rules[$key] = $rule;
+    }
+
+    /**
      * 设置规则 (merge)
      *
      * @param array $rules
