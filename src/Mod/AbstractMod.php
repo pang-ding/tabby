@@ -145,13 +145,15 @@ abstract class AbstractMod
      *
      * @param mixed $where
      * @param mixed $select
+     * @param mixed $order
      *
      * @return mixed
      */
-    public static function fetchAll($where, $select = '*')
+    public static function fetchAll($where, $select = '*', $order = '')
     {
         return static::select($select)
             ->where($where)
+            ->orderBy($order)
             ->fetchAll();
     }
 

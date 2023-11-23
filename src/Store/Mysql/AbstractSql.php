@@ -269,7 +269,11 @@ abstract class AbstractSql
     {
         $items = [];
         foreach ($set as $k => $v) {
-            $items[] = $k . '=' . $this->bind($v);
+            if ($k[0] === '+') {
+                $items[] = substr($k, 1) . ' = ' . substr($k, 1) . ' + ' . $this->bind($v);
+            } else {
+                $items[] = $k . '=' . $this->bind($v);
+            }
         }
         $this->_set = ' SET ' . implode(', ', $items);
 
