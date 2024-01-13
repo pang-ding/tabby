@@ -171,8 +171,8 @@ class Tabby
 
     protected static function defaultLog()
     {
-        $formatter = new LineFormatter('[%level_name%] %message%', null, self::$isDebug);
-        $handler   = new SyslogHandler(self::$Conf['app']['name'], LOG_LOCAL6);
+        $formatter = new LineFormatter('[%level_name%]['.self::$Conf['app']['name'].'] %message%', null, self::$isDebug);
+        $handler   = new SyslogHandler(self::$Conf['prj']['name'].'/'.self::$Conf['app']['name'], LOG_LOCAL6);
         $handler->setFormatter($formatter);
         $handlers = [$handler];
         if (self::$isDebug && !self::$isCli) {
